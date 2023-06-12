@@ -15,11 +15,13 @@ jobs:
         - id: auth
           uses: google-github-actions/auth@v0.4.0
           with:
+            credentials: ${{ secrets.JSONAUTH }}
             service_account: 'deployment@project-semester-6-387321.iam.gserviceaccount.com'
 
         - id: get-gke-credentials
           uses: google-github-actions/get-gke-credentials@v0.4.0
           with:
+            location: us-central1-a
             cluster_name: pictacular
 
         - name: Apply deployment
