@@ -25,7 +25,7 @@ jobs:
             cluster_name: pictacular
 
         - name: Apply deployment
-          run: kubectl apply -f minikube/gateway.yml
+          run: kubectl apply -f minikube/gateway.yaml
         - name: Restart deployment
           run: |
             kubectl rollout restart deploy indv-gateway
