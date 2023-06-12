@@ -12,7 +12,7 @@ jobs:
         - uses: actions/checkout@v3
         - name: install gcloud sdk
           run: |
-            echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
             sudo apt-get update && sudo apt-get install google-cloud-cli          
         - name: Generate kube configuration
@@ -32,5 +32,6 @@ jobs:
             kubectl rollout restart deploy description-mysql
             kubectl rollout restart deploy database-user
             kubectl rollout restart deploy rabbitmq
+
 
 
