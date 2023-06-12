@@ -16,6 +16,8 @@ jobs:
             mkdir ~/.kube
             touch ~/.kube/config
             echo "${{ secrets.KUBE_CONF }}" >> ~/.kube/config
+        - name: install plugin
+          run: gcloud components install gke-gcloud-auth-plugin
 
         - name: Apply deployment
           run: kubectl apply -f minikube/gateway.yml
