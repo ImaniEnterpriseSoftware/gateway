@@ -28,13 +28,13 @@ jobs:
           run: kubectl apply -f minikube/gateway.yaml
         - name: Restart deployment
           run: |
-            kubectl rollout restart deploy indv-gateway
-            kubectl rollout restart deploy description-cud
-            kubectl rollout restart deploy description-r
-            kubectl rollout restart deploy user-service
-            kubectl rollout restart deploy description-mysql
-            kubectl rollout restart deploy database-user
-            kubectl rollout restart deploy rabbitmq
+            kubectl rollout restart deploy indv-gateway --namespace=imani-indv
+            kubectl rollout restart deploy description-cud --namespace=imani-indv
+            kubectl rollout restart deploy description-r --namespace=imani-indv
+            kubectl rollout restart deploy user-service --namespace=imani-indv
+            kubectl rollout restart deploy description-mysql --namespace=imani-indv
+            kubectl rollout restart deploy database-user --namespace=imani-indv
+            kubectl rollout restart deploy rabbitmq --namespace=imani-indv
 
 
 
