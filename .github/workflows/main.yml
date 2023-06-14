@@ -32,10 +32,3 @@ jobs:
             kubectl rollout restart deploy description-cud --namespace=imani-indv
             kubectl rollout restart deploy description-r --namespace=imani-indv
             kubectl rollout restart deploy user-service --namespace=imani-indv
-            kubectl rollout restart deploy description-mysql --namespace=imani-indv
-            kubectl rollout restart deploy database-user --namespace=imani-indv
-            kubectl rollout restart deploy rabbitmq --namespace=imani-indv
-
-
-
-
