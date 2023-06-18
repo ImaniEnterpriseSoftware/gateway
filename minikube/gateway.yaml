@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: indv-imani
+  name: imani-indv
   labels:
-    name: indv-imani
+    name: imani-indv
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: indv-gateway
-  namespace: indv-imani
+  namespace: imani-indv
   labels:
     app: indv-gateway
     tier: backend
@@ -27,7 +27,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: indv-gateway
-  namespace: indv-imani
+  namespace: imani-indv
 spec:
   selector:
     matchLabels:
@@ -51,7 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: description-cud
-  namespace: indv-imani
+  namespace: imani-indv
   labels:
     app: description-cud
     tier: backend
@@ -68,7 +68,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: description-cud
-  namespace: indv-imani
+  namespace: imani-indv
 spec:
   selector:
     matchLabels:
@@ -92,7 +92,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: description-r
-  namespace: indv-imani
+  namespace: imani-indv
   labels:
     app: description-r
     tier: backend
@@ -109,7 +109,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: description-r
-  namespace: indv-imani
+  namespace: imani-indv
 spec:
   selector:
     matchLabels:
@@ -132,8 +132,49 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: user-service
+  namespace: imani-indv
+  labels:
+    app: user-service
+    tier: backend
+spec:
+  ports:
+    - port: 8083
+      targetPort: 8083
+  selector:
+    app: user-service
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: imani-indv
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-service
+        tier: backend
+    spec:
+      containers:
+        - name: user-service
+          image: registry.hub.docker.com/imanileemans/user-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: description-mysql
-  namespace: indv-imani
+  namespace: imani-indv
   labels:
     app: description-mysql
     tier: backend
@@ -151,7 +192,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: description-mysql
-  namespace: indv-imani
+  namespace: imani-indv
 spec:
   selector:
     matchLabels:
@@ -180,8 +221,56 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: database-user
+  namespace: imani-indv
+  labels:
+    app: database-user
+    tier: backend
+spec:
+  selector:
+    app: database-user
+  ports:
+    - protocol: TCP
+      name: "3308"
+      port: 3308
+      targetPort: 3308
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-user
+  namespace: imani-indv
+spec:
+  selector:
+    matchLabels:
+      app: database-user
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: database-user
+        tier: backend
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3308
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: m@nipassword
+            - name: MYSQL_TCP_PORT
+              value: "3308"
+            - name: MYSQL_DATABASE
+              value: userdb
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: rabbitmq
-  namespace: indv-imani
+  namespace: imani-indv
   labels:
     app: rabbitmq
     tier: backend
@@ -200,7 +289,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq
-  namespace: indv-imani
+  namespace: imani-indv
 spec:
   selector:
     matchLabels:
